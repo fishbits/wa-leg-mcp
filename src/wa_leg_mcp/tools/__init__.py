@@ -16,6 +16,7 @@ from .bill_tools import (
 )
 from .committee_tools import get_committee_meetings, get_committees
 from .legislator_tools import find_legislator
+from .roll_call_tools import get_roll_calls
 
 __all__ = [
     "get_bill_info",
@@ -28,4 +29,5 @@ __all__ = [
     "get_committees",
     "find_legislator",
     "get_bills_by_year",
+    "get_roll_calls",
 ]

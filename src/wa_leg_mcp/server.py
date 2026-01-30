@@ -24,6 +24,7 @@ from .tools import (
     get_bill_status,
     get_bills_by_year,
     get_committee_meetings,
+    get_roll_calls,
     search_bills,
 )
 
@@ -88,6 +89,7 @@ def get_default_tools() -> List[Callable]:
         get_bill_status,
         get_bill_documents,
         get_bill_content,
+        get_roll_calls,
         ping,
     ]
 

@@ -23,7 +23,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
-    "mcp>=1.7.0",
+    "mcp[cli]>=1.7.0",
     "wa-leg-api>=0.4.0",
     "python-dotenv>=1.0.0",
     "requests>=2.31.0",
@@ -42,6 +42,7 @@ dev = [
     "isort>=5.12.0",
     "build>=0.10.0",
     "twine>=4.0.0",
+    "hypothesis>=6.0.0",
 ]
 async = [
     "aiohttp>=3.8.0",
@@ -91,6 +92,9 @@ asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 testpaths = ["tests"]
 addopts = "--cov=wa_leg_mcp --cov-report=term-missing --cov-report=html"
+markers = [
+    "property_test: marks tests as property-based tests (deselect with '-m \"not property_test\"')",
+]
 
 [tool.coverage.run]
 source = ["src/wa_leg_mcp"]
