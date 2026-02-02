@@ -256,3 +256,229 @@ class TestGetRollCalls:
             assert result["data"]["roll_calls"] == []
             assert "message" in result["metadata"]
             assert "No roll calls found" in result["metadata"]["message"]
+
+    # Additional edge case tests for Requirements 1.4 and 1.5
+
+    def test_get_roll_calls_empty_bill_number(self):
+        """Test that empty bill number returns validation error."""
+        with (
+            patch("wa_leg_mcp.tools.roll_call_tools.get_current_biennium") as mock_get_biennium,
+            patch("wa_leg_mcp.tools.roll_call_tools.wsl_client") as mock_client,
+        ):
+
+            mock_get_biennium.return_value = "2023-24"
+
+            # Test empty string
+            result = get_roll_calls("")
+
+            assert result["success"] is False
+            assert "error" in result
+            assert "Invalid bill number" in result["error"]
+
+    def test_get_roll_calls_whitespace_only_bill_number(self):
+        """Test that whitespace-only bill number returns validation error."""
+        with (
+            patch("wa_leg_mcp.tools.roll_call_tools.get_current_biennium") as mock_get_biennium,
+            patch("wa_leg_mcp.tools.roll_call_tools.wsl_client") as mock_client,
+        ):
+
+            mock_get_biennium.return_value = "2023-24"
+
+            # Test whitespace only
+            result = get_roll_calls("   ")
+
+            assert result["success"] is False
+            assert "error" in result
+            assert "Invalid bill number" in result["error"]
+
+    def test_get_roll_calls_special_characters_bill_number(self):
+        """Test that bill numbers with only special characters return validation error."""
+        with (
+            patch("wa_leg_mcp.tools.roll_call_tools.get_current_biennium") as mock_get_biennium,
+            patch("wa_leg_mcp.tools.roll_call_tools.wsl_client") as mock_client,
+        ):
+
+            mock_get_biennium.return_value = "2023-24"
+
+            # Test special characters
+            result = get_roll_calls("###")
+
+            assert result["success"] is False
+            assert "error" in result
+            assert "Invalid bill number" in result["error"]
+
+    def test_get_roll_calls_malformed_votes_structure(self):
+        """Test handling of malformed votes structure in API response."""
+        with (
+            patch("wa_leg_mcp.tools.roll_call_tools.get_current_biennium") as mock_get_biennium,
+            patch("wa_leg_mcp.tools.roll_call_tools.wsl_client") as mock_client,
+        ):
+
+            mock_get_biennium.return_value = "2023-24"
+            # Return roll call with malformed votes structure
+            mock_client.get_roll_calls.return_value = [
+                {
+                    "sequence_number": 1,
+                    "vote_date": "2023-03-15",
+                    "motion": "Final Passage",
+                    "yea_count": 65,
+                    "nay_count": 33,
+                    "absent_count": 0,
+                    "excused_count": 0,
+                    "votes": "invalid_structure",  # Malformed votes
+                }
+            ]
+
+            result = get_roll_calls("HB 1234")
+
+            # Should handle gracefully
+            assert result["success"] is True
+            assert len(result["data"]["roll_calls"]) == 1
+            # Votes should be empty list when structure is malformed
+            assert result["data"]["roll_calls"][0]["votes"] == []
+
+    def test_get_roll_calls_missing_vote_fields(self):
+        """Test handling of votes with missing fields."""
+        with (
+            patch("wa_leg_mcp.tools.roll_call_tools.get_current_biennium") as mock_get_biennium,
+            patch("wa_leg_mcp.tools.roll_call_tools.wsl_client") as mock_client,
+        ):
+
+            mock_get_biennium.return_value = "2023-24"
+            # Return roll call with incomplete vote data
+            mock_client.get_roll_calls.return_value = [
+                {
+                    "sequence_number": 1,
+                    "vote_date": "2023-03-15",
+                    "motion": "Final Passage",
+                    "yea_count": 65,
+                    "nay_count": 33,
+                    "absent_count": 0,
+                    "excused_count": 0,
+                    "votes": {
+                        "array_of_vote": [
+                            {
+                                "name": "Smith, John",
+                                # Missing vote_value, district, party
+                            }
+                        ]
+                    },
+                }
+            ]
+
+            result = get_roll_calls("HB 1234")
+
+            # Should handle gracefully with empty strings for missing fields
+            assert result["success"] is True
+            vote = result["data"]["roll_calls"][0]["votes"][0]
+            assert vote["legislator_name"] == "Smith, John"
+            assert vote["vote"] == ""
+            assert vote["district"] == ""
+            assert vote["party"] == ""
+
+    def test_get_roll_calls_missing_roll_call_fields(self):
+        """Test handling of roll calls with missing fields."""
+        with (
+            patch("wa_leg_mcp.tools.roll_call_tools.get_current_biennium") as mock_get_biennium,
+            patch("wa_leg_mcp.tools.roll_call_tools.wsl_client") as mock_client,
+        ):
+
+            mock_get_biennium.return_value = "2023-24"
+            # Return roll call with missing fields
+            mock_client.get_roll_calls.return_value = [
+                {
+                    # Missing most fields
+                    "votes": {"array_of_vote": []}
+                }
+            ]
+
+            result = get_roll_calls("HB 1234")
+
+            # Should handle gracefully with default values
+            assert result["success"] is True
+            roll_call = result["data"]["roll_calls"][0]
+            assert roll_call["sequence_number"] == 0
+            assert roll_call["date"] == ""
+            assert roll_call["description"] == ""
+            assert roll_call["yea_votes"] == 0
+            assert roll_call["nay_votes"] == 0
+            assert roll_call["absent_votes"] == 0
+            assert roll_call["excused_votes"] == 0
+
+    def test_get_roll_calls_network_timeout_error(self):
+        """Test handling of network timeout errors."""
+        with (
+            patch("wa_leg_mcp.tools.roll_call_tools.get_current_biennium") as mock_get_biennium,
+            patch("wa_leg_mcp.tools.roll_call_tools.wsl_client") as mock_client,
+        ):
+
+            mock_get_biennium.return_value = "2023-24"
+            mock_client.get_roll_calls.side_effect = TimeoutError("Request timed out")
+
+            result = get_roll_calls("HB 1234")
+
+            # Verify error handling
+            assert result["success"] is False
+            assert "error" in result
+            assert "Failed to fetch roll calls" in result["error"]
+            assert "metadata" in result
+            assert result["metadata"]["tool_name"] == "get_roll_calls"
+
+    def test_get_roll_calls_connection_error(self):
+        """Test handling of connection errors."""
+        with (
+            patch("wa_leg_mcp.tools.roll_call_tools.get_current_biennium") as mock_get_biennium,
+            patch("wa_leg_mcp.tools.roll_call_tools.wsl_client") as mock_client,
+        ):
+
+            mock_get_biennium.return_value = "2023-24"
+            mock_client.get_roll_calls.side_effect = ConnectionError("Connection failed")
+
+            result = get_roll_calls("HB 1234")
+
+            # Verify error handling
+            assert result["success"] is False
+            assert "error" in result
+            assert "Failed to fetch roll calls" in result["error"]
+
+    def test_get_roll_calls_votes_as_list(self):
+        """Test handling when votes are returned as a list instead of dict."""
+        with (
+            patch("wa_leg_mcp.tools.roll_call_tools.get_current_biennium") as mock_get_biennium,
+            patch("wa_leg_mcp.tools.roll_call_tools.wsl_client") as mock_client,
+        ):
+
+            mock_get_biennium.return_value = "2023-24"
+            # Return votes as a list directly
+            mock_client.get_roll_calls.return_value = [
+                {
+                    "sequence_number": 1,
+                    "vote_date": "2023-03-15",
+                    "motion": "Final Passage",
+                    "yea_count": 2,
+                    "nay_count": 1,
+                    "absent_count": 0,
+                    "excused_count": 0,
+                    "votes": [  # List instead of dict
+                        {
+                            "name": "Smith, John",
+                            "vote_value": "Yea",
+                            "district": 1,
+                            "party": "D",
+                        },
+                        {
+                            "name": "Doe, Jane",
+                            "vote_value": "Nay",
+                            "district": 2,
+                            "party": "R",
+                        },
+                    ],
+                }
+            ]
+
+            result = get_roll_calls("HB 1234")
+
+            # Should handle both list and dict formats
+            assert result["success"] is True
+            assert len(result["data"]["roll_calls"][0]["votes"]) == 2
+            assert result["data"]["roll_calls"][0]["votes"][0]["legislator_name"] == "Smith, John"
