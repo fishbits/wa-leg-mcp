@@ -26,6 +26,12 @@ from .enhanced_committee_tools import (
 )
 from .legislator_tools import find_legislator
 from .roll_call_tools import get_roll_calls
+from .sponsor_tools import (
+    get_house_sponsors,
+    get_requesters,
+    get_senate_sponsors,
+    get_sponsors,
+)
 
 __all__ = [
     "get_bill_info",
@@ -46,4 +52,8 @@ __all__ = [
     "get_committee_members",
     "get_house_committees",
     "get_senate_committees",
+    "get_sponsors",
+    "get_house_sponsors",
+    "get_senate_sponsors",
+    "get_requesters",
 ]
