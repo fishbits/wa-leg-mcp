@@ -358,8 +358,8 @@ This implementation plan expands the Washington State Legislature MCP Server wit
     - **Property 39: Document Name Pattern Matching**
     - **Validates: Requirements 13.1, 13.2, 13.3**
 
-- [ ] 15. Implement metadata and reference tools
-  - [ ] 15.1 Implement getLegislationTypes tool
+- [x] 15. Implement metadata and reference tools
+  - [x] 15.1 Implement getLegislationTypes tool
     - Create MCP tool with no parameters
     - Call WSLClient.GetLegislationTypes
     - Parse legislation types with codes, descriptions, chamber applicability
@@ -367,26 +367,26 @@ This implementation plan expands the Washington State Legislature MCP Server wit
     - Handle API failure with default set and warning
     - _Requirements: 14.1, 14.2, 14.3, 14.5_
   
-  - [ ] 15.2 Implement getLegislationByRequestNumber tool
+  - [x] 15.2 Implement getLegislationByRequestNumber tool
     - Create MCP tool with biennium and request_number parameters
     - Call WSLClient.GetLegislationByRequestNumber
     - Parse bill information or pending request status
     - Handle invalid request numbers with descriptive errors
     - _Requirements: 15.1, 15.2, 15.3, 15.4, 15.5_
   
-  - [ ] 15.3 Implement getCommitteeMeetingItems tool
+  - [x] 15.3 Implement getCommitteeMeetingItems tool
     - Create MCP tool with meeting_id parameter
     - Call WSLClient.GetCommitteeMeetingItems
     - Parse agenda items with bills and topics
     - _Requirements: 3.2_
   
-  - [ ] 15.4 Implement getRevisedCommitteeMeetings tool
+  - [x] 15.4 Implement getRevisedCommitteeMeetings tool
     - Create MCP tool with since_date and optional biennium parameters
     - Accept ISO 8601 date format
     - Call WSLClient.GetRevisedCommitteeMeetings
     - _Requirements: 3.5, 10.5_
   
-  - [ ] 15.5 Write property tests for metadata tools
+  - [x] 15.5 Write property tests for metadata tools
     - **Property 40: Legislation Type Retrieval**
     - **Property 41: Legislation Type Caching**
     - **Property 42: Legislation Type Validation**

@@ -30,6 +30,12 @@ from .enhanced_committee_tools import (
     get_senate_committees,
 )
 from .legislator_tools import find_legislator
+from .metadata_tools import (
+    get_committee_meeting_items,
+    get_legislation_by_request_number,
+    get_legislation_types,
+    get_revised_committee_meetings,
+)
 from .passage_tools import (
     get_legislation_passed_house,
     get_legislation_passed_legislature,
@@ -76,4 +82,8 @@ __all__ = [
     "get_document_classes",
     "get_all_documents_by_class",
     "get_documents_by_class",
+    "get_legislation_types",
+    "get_legislation_by_request_number",
+    "get_committee_meeting_items",
+    "get_revised_committee_meetings",
 ]
