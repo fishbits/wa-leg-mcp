@@ -15,6 +15,15 @@ from .bill_tools import (
     search_bills,
 )
 from .committee_tools import get_committee_meetings, get_committees
+from .enhanced_committee_tools import (
+    get_active_committees,
+    get_active_committee_members,
+    get_active_house_committees,
+    get_active_senate_committees,
+    get_committee_members,
+    get_house_committees,
+    get_senate_committees,
+)
 from .legislator_tools import find_legislator
 from .roll_call_tools import get_roll_calls
 
@@ -30,4 +39,11 @@ __all__ = [
     "find_legislator",
     "get_bills_by_year",
     "get_roll_calls",
+    "get_active_committees",
+    "get_active_house_committees",
+    "get_active_senate_committees",
+    "get_active_committee_members",
+    "get_committee_members",
+    "get_house_committees",
+    "get_senate_committees",
 ]
