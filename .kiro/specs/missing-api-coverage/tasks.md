@@ -333,26 +333,26 @@ This implementation plan expands the Washington State Legislature MCP Server wit
   - Ensure all tests pass, ask the user if questions arise.
 
 
-- [ ] 14. Implement document management tools
-  - [ ] 14.1 Implement getDocumentClasses tool
+- [x] 14. Implement document management tools
+  - [x] 14.1 Implement getDocumentClasses tool
     - Create MCP tool with biennium parameter
     - Call WSLClient.GetDocumentClasses
     - Parse document classes with names and descriptions
     - _Requirements: 13.1, 13.5_
   
-  - [ ] 14.2 Implement getAllDocumentsByClass tool
+  - [x] 14.2 Implement getAllDocumentsByClass tool
     - Create MCP tool with biennium and document_class parameters
     - Call WSLClient.GetAllDocumentsByClass
     - Parse document list with names, URLs, bill associations
     - _Requirements: 13.2, 13.4_
   
-  - [ ] 14.3 Implement getDocumentsByClass tool
+  - [x] 14.3 Implement getDocumentsByClass tool
     - Create MCP tool with biennium, document_class, and name_filter parameters
     - Call WSLClient.GetDocumentsByClass
     - Implement pattern matching for name filter
     - _Requirements: 13.3, 13.4_
   
-  - [ ] 14.4 Write property tests for document management tools
+  - [x] 14.4 Write property tests for document management tools
     - **Property 37: Document Class Retrieval**
     - **Property 38: Document Class Filtering**
     - **Property 39: Document Name Pattern Matching**

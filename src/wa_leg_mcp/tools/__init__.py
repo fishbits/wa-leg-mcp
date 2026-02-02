@@ -15,6 +15,11 @@ from .bill_tools import (
     search_bills,
 )
 from .committee_tools import get_committee_meetings, get_committees
+from .document_tools import (
+    get_all_documents_by_class,
+    get_document_classes,
+    get_documents_by_class,
+)
 from .enhanced_committee_tools import (
     get_active_committees,
     get_active_committee_members,
@@ -68,4 +73,7 @@ __all__ = [
     "get_legislation_passed_legislature",
     "get_prefiled_legislation",
     "get_legislative_status_changes",
+    "get_document_classes",
+    "get_all_documents_by_class",
+    "get_documents_by_class",
 ]
