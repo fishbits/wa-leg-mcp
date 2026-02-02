@@ -120,21 +120,21 @@ This implementation plan expands the Washington State Legislature MCP Server wit
     - **Property 19: Initiative Session Law Retrieval**
     - **Validates: Requirements 5.1, 5.2, 5.3, 5.4**
 
-- [ ] 7. Implement governor action tools
-  - [ ] 7.1 Implement getLegislationGovernorSigned tool
+- [-] 7. Implement governor action tools
+  - [x] 7.1 Implement getLegislationGovernorSigned tool
     - Create MCP tool with biennium parameter
     - Call WSLClient.GetLegislationGovernorSigned
     - Parse signed bills with action dates
     - Support optional year filtering
     - _Requirements: 6.1, 6.4, 6.5_
   
-  - [ ] 7.2 Implement getLegislationGovernorVeto tool
+  - [x] 7.2 Implement getLegislationGovernorVeto tool
     - Create MCP tool with biennium parameter
     - Call WSLClient.GetLegislationGovernorVeto
     - Include veto messages in response
     - _Requirements: 6.2, 6.4_
   
-  - [ ] 7.3 Implement getLegislationGovernorPartialVeto tool
+  - [x] 7.3 Implement getLegislationGovernorPartialVeto tool
     - Create MCP tool with biennium parameter
     - Call WSLClient.GetLegislationGovernorPartialVeto
     - Parse partial veto data with affected sections
