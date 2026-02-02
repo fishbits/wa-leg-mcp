@@ -123,6 +123,7 @@ def mock_tools():
         "get_bill_content",
         "get_committee_meetings",
         "find_legislator",
+        "get_roll_calls",
     ]
 
     mocks = {}
@@ -177,7 +178,7 @@ class TestCreateServer(TestBase):
             assert server == mock_server_instance
 
             # Verify all tools were added
-            assert mock_server_instance.add_tool.call_count == 9
+            assert mock_server_instance.add_tool.call_count == 10
 
             # Verify the expected calls were made
             expected_calls = [
@@ -189,6 +190,7 @@ class TestCreateServer(TestBase):
                 call(mock_tools["get_bill_status"]),
                 call(mock_tools["get_bill_documents"]),
                 call(mock_tools["get_bill_content"]),
+                call(mock_tools["get_roll_calls"]),
                 call(ping),
             ]
 
