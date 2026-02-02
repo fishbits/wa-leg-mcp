@@ -25,6 +25,13 @@ from .enhanced_committee_tools import (
     get_senate_committees,
 )
 from .legislator_tools import find_legislator
+from .passage_tools import (
+    get_legislation_passed_house,
+    get_legislation_passed_legislature,
+    get_legislation_passed_senate,
+    get_legislative_status_changes,
+    get_prefiled_legislation,
+)
 from .roll_call_tools import get_roll_calls
 from .sponsor_tools import (
     get_house_sponsors,
@@ -56,4 +63,9 @@ __all__ = [
     "get_house_sponsors",
     "get_senate_sponsors",
     "get_requesters",
+    "get_legislation_passed_house",
+    "get_legislation_passed_senate",
+    "get_legislation_passed_legislature",
+    "get_prefiled_legislation",
+    "get_legislative_status_changes",
 ]
