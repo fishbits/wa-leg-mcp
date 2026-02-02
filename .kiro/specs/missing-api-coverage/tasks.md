@@ -82,38 +82,38 @@ This implementation plan expands the Washington State Legislature MCP Server wit
   - Ensure all tests pass, ask the user if questions arise.
 
 
-- [ ] 6. Implement session law tools
-  - [ ] 6.1 Implement getSessionLawByBill tool
+- [x] 6. Implement session law tools
+  - [x] 6.1 Implement getSessionLawByBill tool
     - Create MCP tool with biennium and bill_number parameters
     - Call WSLClient.GetSessionLawByBill
     - Parse session law data with chapter, effective date, law text URL
     - Handle bills not enacted into law
     - _Requirements: 5.1, 5.5_
   
-  - [ ] 6.2 Implement getSessionLawByBillId tool
+  - [x] 6.2 Implement getSessionLawByBillId tool
     - Create MCP tool with bill_id parameter
     - Call WSLClient.GetSessionLawByBillId
     - _Requirements: 5.1_
   
-  - [ ] 6.3 Implement getBillByChapterNumber tool
+  - [x] 6.3 Implement getBillByChapterNumber tool
     - Create MCP tool with year and chapter_number parameters
     - Call WSLClient.GetBillByChapterNumber
     - Implement reverse lookup from chapter to bill
     - _Requirements: 5.2_
   
-  - [ ] 6.4 Implement getChapterNumbersByYear tool
+  - [x] 6.4 Implement getChapterNumbersByYear tool
     - Create MCP tool with year parameter
     - Call WSLClient.GetChapterNumbersByYear
     - Return all session law chapters for the year
     - _Requirements: 5.3_
   
-  - [ ] 6.5 Implement getSessionLawByInitiativeNumber tool
+  - [x] 6.5 Implement getSessionLawByInitiativeNumber tool
     - Create MCP tool with initiative_number and year parameters
     - Call WSLClient.GetSessionLawByInitiativeNumber
     - Handle initiative-specific data structure
     - _Requirements: 5.4_
   
-  - [ ] 6.6 Write property tests for session law tools
+  - [x] 6.6 Write property tests for session law tools
     - **Property 16: Session Law Retrieval by Bill**
     - **Property 17: Session Law Reverse Lookup**
     - **Property 18: Annual Session Law Completeness**
