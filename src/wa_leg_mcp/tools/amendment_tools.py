@@ -200,13 +200,25 @@ def get_amendments_for_year(bill_number: str, year: Optional[str] = None) -> Dic
         }
     """
     try:
-        # Use current year if none provided
-        if not year:
+        # Use current year if none provided (but not if empty string)
+        if year is None:
             biennium = get_current_biennium()
             year = biennium.split("-")[0]
 
         # Normalize year format - convert to integer
         year_str = year.strip()
+
+        # Check for empty year after stripping
+        if not year_str:
+            return {
+                "success": False,
+                "error": f"Invalid year format: empty string. Expected 2-digit (e.g., '23') or 4-digit (e.g., '2023') format.",
+                "error_type": "validation",
+                "metadata": {
+                    "tool_name": "get_amendments_for_year",
+                    "api_call": "GetAmendmentsForYear",
+                },
+            }
 
         # Handle both 2-digit and 4-digit year formats
         if len(year_str) == 2:
