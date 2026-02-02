@@ -150,8 +150,8 @@ This implementation plan expands the Washington State Legislature MCP Server wit
     - **Property 6: Temporal Filtering Correctness**
     - **Validates: Requirements 6.5**
 
-- [ ] 8. Implement committee action tools
-  - [ ] 8.1 Implement getCommitteeExecutiveActionsByBill tool
+- [-] 8. Implement committee action tools
+  - [x] 8.1 Implement getCommitteeExecutiveActionsByBill tool
     - Create MCP tool with biennium and bill_number parameters
     - Call WSLClient.GetCommitteeExecutiveActionsByBill
     - Parse executive actions with committee, date, action type
