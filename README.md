@@ -172,13 +172,13 @@ wa-leg-mcp/
 │   │   ├── committee_tools.py      # Committee meetings
 │   │   ├── enhanced_committee_tools.py  # Committee membership
 │   │   ├── committee_action_tools.py    # Committee actions
-│   │   ├── session_law_tools.py    # Session laws (not implemented yet)
+│   │   ├── session_law_tools.py    # Session laws and chapters
 │   │   ├── rcw_tools.py            # RCW citations and hearings
-│   │   ├── governor_action_tools.py     # Governor actions (not implemented yet)
+│   │   ├── governor_action_tools.py     # Governor actions (signed/vetoed)
 │   │   ├── sponsor_tools.py        # Sponsor information
 │   │   ├── passage_tools.py        # Bill passage tracking
 │   │   ├── document_tools.py       # Document management
-│   │   ├── metadata_tools.py       # Reference data
+│   │   ├── metadata_tools.py       # Reference data (cached)
 │   │   └── legislator_tools.py     # Legislator lookup
 │   ├── resources/                   # MCP resources
 │   │   └── bill_resources.py       # Bill document access
