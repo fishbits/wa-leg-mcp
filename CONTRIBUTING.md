@@ -1,6 +1,21 @@
-# Contributing to wa-leg-mcp
+# Contributing to wa-leg-mcp (Enhanced)
 
 First off, thank you for considering contributing to wa-leg-mcp! This project aims to make Washington State Legislature data more accessible through AI assistants.
+
+## About This Fork
+
+This is an enhanced fork of the [original wa-leg-mcp](https://github.com/awalcutt/wa-leg-mcp) by Alex Walcutt. This fork adds comprehensive WSLWS API coverage with 28 additional tools and extensive testing.
+
+### Contributing to This Fork
+
+Contributions to this enhanced fork are welcome! You can:
+- Report issues or suggest features for this fork
+- Submit pull requests with improvements or bug fixes
+- Help improve documentation and tests
+
+### Contributing to the Original Project
+
+If your contribution would benefit the original project, consider submitting it to [awalcutt/wa-leg-mcp](https://github.com/awalcutt/wa-leg-mcp) as well.
 
 ## Quick Start
 
@@ -59,4 +74,12 @@ For questions or discussions about the project, please open an issue in the GitH
 
 ---
 
-This project is maintained by Alex Adacutt and is licensed under the MIT License.
+## Project Maintainers
+
+**This Enhanced Fork:**  
+Maintained by EricF
+
+**Original Project:**  
+Created by Alex Walcutt ([awalcutt/wa-leg-mcp](https://github.com/awalcutt/wa-leg-mcp))
+
+Both projects are licensed under the MIT License.

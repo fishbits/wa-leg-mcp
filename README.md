@@ -1,4 +1,6 @@
-# Washington State Legislature MCP Server
+# Washington State Legislature MCP Server (Enhanced)
+
+An enhanced fork of [wa-leg-mcp](https://github.com/awalcutt/wa-leg-mcp) with comprehensive WSLWS API coverage.
 
 A Model Context Protocol (MCP) server that provides AI assistants with access to Washington State Legislature data, enabling civic engagement through conversational interfaces.
 
@@ -780,6 +782,23 @@ Parameters:
 
 Returns: Document content or URL based on format
 
+## About This Fork
+
+This is an enhanced fork of the original [wa-leg-mcp](https://github.com/awalcutt/wa-leg-mcp) project by Alex Walcutt.
+
+### What's New in This Fork
+
+- **28 additional MCP tools** covering roll calls, amendments, session laws, governor actions, committee actions, and more
+- **444 comprehensive tests** including 380+ unit tests and 64+ property-based tests
+- **Full WSLWS API coverage** with 35 total tools spanning all major legislative data endpoints
+- **Enhanced error handling** with consistent patterns across all tools
+- **Caching support** for reference data (legislation types)
+- **Comprehensive documentation** for all tools and features
+
+### Original Project
+
+This project builds upon the excellent foundation created by [Alex Walcutt](https://github.com/awalcutt). The original repository can be found at [github.com/awalcutt/wa-leg-mcp](https://github.com/awalcutt/wa-leg-mcp).
+
 ## Contributing
 
 We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
@@ -787,3 +806,6 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+**Original work** © 2025 Alex Walcutt  
+**Enhancements** © 2026 EricF
