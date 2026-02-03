@@ -160,37 +160,38 @@ SERVER_NAME="Washington State Legislature MCP Server"
 
 ```
 wa-leg-mcp/
-├── src/
-│   ├── wa_leg_mcp/
-│   │   ├── __init__.py
-│   │   ├── server.py           # Main MCP server implementation
-│   │   ├── tools/              # Tool implementations
-│   │   │   ├── __init__.py
-│   │   │   ├── bill_tools.py
-│   │   │   ├── committee_tools.py
-│   │   │   └── legislator_tools.py
-│   │   ├── resources/          # MCP resource implementations
-│   │   │   ├── __init__.py
-│   │   │   └── bill_resources.py # Bill document resources
-│   │   ├── clients/            # API clients
-│   │   │   ├── __init__.py
-│   │   │   └── wsl_client.py   # WA State Legislature API client
-│   │   └── utils/              # Utility functions
-│   │       ├── __init__.py
-│   │       └── formatters.py
-├── tests/                      # Test suite
-│   ├── __init__.py
-│   ├── test_bill_tools.py
-│   ├── test_bill_resources.py  # Tests for bill resources
-│   ├── test_committee_tools.py
-│   ├── test_legislator_tools.py
-│   ├── test_server.py
-│   ├── test_utils_formatters.py
-│   └── test_wsl_client.py
-├── pyproject.toml              # Project configuration and dependencies
-├── Makefile                    # Development workflow commands
-├── README.md
-└── LICENSE
+├── src/wa_leg_mcp/
+│   ├── server.py                    # Main MCP server
+│   ├── clients/                     # API clients
+│   │   ├── wsl_client.py           # SOAP API wrapper
+│   │   └── wsl_search_client.py    # Search API client
+│   ├── tools/                       # 35 MCP tools organized by function
+│   │   ├── bill_tools.py           # Bill information and search
+│   │   ├── roll_call_tools.py      # Voting records
+│   │   ├── amendment_tools.py      # Bill amendments
+│   │   ├── committee_tools.py      # Committee meetings
+│   │   ├── enhanced_committee_tools.py  # Committee membership
+│   │   ├── committee_action_tools.py    # Committee actions
+│   │   ├── session_law_tools.py    # Session laws (not implemented yet)
+│   │   ├── rcw_tools.py            # RCW citations and hearings
+│   │   ├── governor_action_tools.py     # Governor actions (not implemented yet)
+│   │   ├── sponsor_tools.py        # Sponsor information
+│   │   ├── passage_tools.py        # Bill passage tracking
+│   │   ├── document_tools.py       # Document management
+│   │   ├── metadata_tools.py       # Reference data
+│   │   └── legislator_tools.py     # Legislator lookup
+│   ├── resources/                   # MCP resources
+│   │   └── bill_resources.py       # Bill document access
+│   └── utils/                       # Utilities
+│       ├── formatters.py           # Date/biennium formatting
+│       └── bill_document_utils.py  # Document helpers
+├── tests/                           # 444 tests (380+ unit, 64+ property)
+│   ├── property/                    # Property-based tests
+│   │   └── test_*.py               # 64+ property tests
+│   └── test_*.py                    # 380+ unit tests
+├── pyproject.toml                   # Dependencies and config
+├── Makefile                         # Development commands
+└── README.md
 ```
 
 ## Development
