@@ -5,12 +5,15 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "wa-leg-mcp"
 dynamic = ["version"]
-description = "Model Context Protocol server for Washington State Legislative Web Services API"
+description = "Enhanced Model Context Protocol server for Washington State Legislative Web Services API with comprehensive coverage"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [
-    {name = "Alex Adacutt", email = "alex@adacutt.house"}
+    {name = "Alex Walcutt", email = "alex@adacutt.house"}
+]
+maintainers = [
+    {name = "EricF"}
 ]
 keywords = ["mcp", "washington", "legislature", "civic", "government"]
 classifiers = [
@@ -55,10 +58,11 @@ all = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/awalcutt/wa-leg-mcp"
-Documentation = "https://github.com/awalcutt/wa-leg-mcp#readme"
-Repository = "https://github.com/awalcutt/wa-leg-mcp.git"
-Issues = "https://github.com/awalcutt/wa-leg-mcp/issues"
+Homepage = "https://github.com/fishbits/wa-leg-mcp"
+Documentation = "https://github.com/fishbits/wa-leg-mcp#readme"
+Repository = "https://github.com/fishbits/wa-leg-mcp.git"
+Issues = "https://github.com/fishbits/wa-leg-mcp/issues"
+"Original Repository" = "https://github.com/awalcutt/wa-leg-mcp"
 
 [project.scripts]
 wa-leg-mcp = "wa_leg_mcp.server:main"
