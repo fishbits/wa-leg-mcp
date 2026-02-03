@@ -4,24 +4,98 @@ A Model Context Protocol (MCP) server that provides AI assistants with access to
 
 ## Overview
 
-This MCP server connects AI assistants to the Washington State Legislative Web Services (WSLWS), providing tools for:
+This MCP server connects AI assistants to the Washington State Legislative Web Services (WSLWS), providing comprehensive tools for:
 - Bill tracking and information retrieval
-- Committee meeting schedules and agendas
-- Legislator lookup and sponsor information
-- Bill status and history tracking
-- Legislative document access
+- Roll call votes and legislator voting records
+- Amendments and bill modifications
+- Committee meetings, actions, and membership
+- Session laws and RCW citations
+- Governor actions (signed, vetoed, partially vetoed bills)
+- Sponsor and legislator information
+- Bill passage tracking and status changes
+- Legislative document management
+- Metadata and reference data
+
+With 35 MCP tools covering the full WSLWS API, this server enables AI assistants to answer complex questions about the Washington State legislative process and support civic engagement use cases.
 
 ## Features
 
-### Core Tools
+This server provides **35 MCP tools** organized into logical categories:
+
+### Bill Information Tools (8 tools)
 - `getBillInfo` - Retrieve detailed information about specific bills
 - `searchBills` - Search for bills using keywords and optional filtering
 - `getBillsByYear` - Retrieve all bills from a specific year with filtering options
-- `getCommitteeMeetings` - Get committee meeting schedules and agendas
-- `findLegislator` - Find legislators by district or lookup sponsors
 - `getBillStatus` - Get current status and history of a bill
 - `getBillDocuments` - Retrieve bill document metadata with links
 - `getBillContent` - Retrieve the actual content of a bill in AI-friendly format
+- `getBillAmendments` - Get amendments for a specific bill
+- `getCommittees` - Get committee information
+
+### Roll Call and Voting Tools (1 tool)
+- `getRollCalls` - Get roll call voting records for a bill with legislator votes
+
+### Amendment Tools (2 tools)
+- `getAmendmentsForBiennium` - Get amendments for a bill in a biennium
+- `getAmendmentsForYear` - Get amendments for a bill in a specific year
+
+### Committee Tools (9 tools)
+- `getCommitteeMeetings` - Get committee meeting schedules and agendas
+- `getActiveCommittees` - Get all currently active committees
+- `getActiveHouseCommittees` - Get active House committees
+- `getActiveSenateCommittees` - Get active Senate committees
+- `getActiveCommitteeMembers` - Get members of an active committee
+- `getCommitteeMembers` - Get committee members for a biennium (historical)
+- `getHouseCommittees` - Get all House committees for a biennium
+- `getSenateCommittees` - Get all Senate committees for a biennium
+- `getCommitteeMeetingItems` - Get agenda items for a specific meeting
+
+### Committee Action Tools (6 tools)
+- `getCommitteeExecutiveActionsByBill` - Get executive actions on a bill
+- `getCommitteeReferralsByBill` - Get committee referrals for a bill
+- `getCommitteeReferralsByCommittee` - Get bills referred to a committee
+- `getDoPassByCommittee` - Get bills with "do pass" recommendation
+- `getInCommittee` - Get bills currently in a committee
+- `getLegislationReportedOutOfCommittee` - Get bills reported out with recommendations
+
+### Session Law and RCW Tools (7 tools)
+- `getSessionLawByBill` - Get session law information for a bill
+- `getSessionLawByBillId` - Get session law by bill ID
+- `getBillByChapterNumber` - Get bill by session law chapter number
+- `getChapterNumbersByYear` - Get all session law chapters for a year
+- `getSessionLawByInitiativeNumber` - Get session law for an initiative
+- `getRcwCitesAffected` - Get RCW sections affected by a bill
+- `getHearings` - Get committee hearings for a bill
+
+### Governor Action Tools (3 tools)
+- `getLegislationGovernorSigned` - Get bills signed by the governor
+- `getLegislationGovernorVeto` - Get bills vetoed by the governor
+- `getLegislationGovernorPartialVeto` - Get bills with line-item vetoes
+
+### Sponsor and Legislator Tools (5 tools)
+- `findLegislator` - Find legislators by district or lookup sponsors
+- `getSponsors` - Get all sponsors for a biennium
+- `getHouseSponsors` - Get House sponsors
+- `getSenateSponors` - Get Senate sponsors
+- `getRequesters` - Get entities authorized to request legislation
+
+### Bill Passage and Status Tools (5 tools)
+- `getLegislationPassedHouse` - Get bills that passed the House
+- `getLegislationPassedSenate` - Get bills that passed the Senate
+- `getLegislationPassedLegislature` - Get bills that passed both chambers
+- `getPrefiledLegislation` - Get prefiled bills
+- `getLegislativeStatusChanges` - Get bill status changes in a date range
+
+### Document Management Tools (3 tools)
+- `getDocumentClasses` - Get available document types for a biennium
+- `getAllDocumentsByClass` - Get all documents of a specific class
+- `getDocumentsByClass` - Get documents by class with name filter
+
+### Metadata and Reference Tools (4 tools)
+- `getLegislationTypes` - Get valid legislation types (cached for 24 hours)
+- `getLegislationByRequestNumber` - Look up bill by request number
+- `getRevisedCommitteeMeetings` - Get committee meetings revised since a date
+- `getCommitteeMeetingItems` - Get agenda items for a specific meeting
 
 ### MCP Resources
 - `bill://xml/{biennium}/{chamber}/{bill_number}` - Access bill documents in structured XML format
@@ -310,6 +384,354 @@ Parameters:
 - `bill_format` (string, optional): Document format - "xml" (default), "htm", or "pdf"
 
 Returns: For XML and HTM formats: Dict containing the document content and metadata. For PDF format: Dict containing the URL to access the PDF and metadata.
+
+#### getRollCalls
+Get roll call voting records for a bill.
+
+Parameters:
+- `bill_number` (string, required): Bill number (e.g., "HB1234", "SB5678")
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: Roll call votes with legislator names, vote values (yea/nay/absent/excused), and vote dates
+
+#### getAmendmentsForBiennium
+Get amendments for a bill in a biennium.
+
+Parameters:
+- `bill_number` (string, required): Bill number (e.g., "HB1234")
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of amendments with sponsor, description, and status
+
+#### getAmendmentsForYear
+Get amendments for a bill in a specific year.
+
+Parameters:
+- `bill_number` (string, required): Bill number (e.g., "HB1234")
+- `year` (string, required): Year in format "YYYY" or "YY" (e.g., "2025" or "25")
+
+Returns: List of amendments for the specified year
+
+#### getHearings
+Get committee hearings for a bill.
+
+Parameters:
+- `bill_number` (string, required): Bill number (e.g., "HB1234")
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of hearings with committee, date, time, location, and agenda items
+
+#### getRcwCitesAffected
+Get RCW sections affected by a bill.
+
+Parameters:
+- `bill_number` (string, required): Bill number (e.g., "HB1234")
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of RCW citations with section numbers and action types (amended, repealed, created)
+
+#### getSessionLawByBill
+Get session law information for a bill.
+
+Parameters:
+- `bill_number` (string, required): Bill number (e.g., "HB1234")
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: Session law with chapter number, effective date, and law text reference
+
+#### getSessionLawByBillId
+Get session law by bill ID.
+
+Parameters:
+- `bill_id` (string, required): Bill ID (e.g., "HB 1234")
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: Session law information
+
+#### getBillByChapterNumber
+Get bill information by session law chapter number.
+
+Parameters:
+- `year` (integer, required): Year (e.g., 2025)
+- `session` (integer, required): Session code (0=Regular, 1=1st Special, etc.)
+- `chapter_number` (integer, required): Chapter number
+
+Returns: Bill information for the specified chapter
+
+#### getChapterNumbersByYear
+Get all session law chapters for a year.
+
+Parameters:
+- `year` (integer, required): Year (e.g., 2025)
+
+Returns: List of all session law chapters enacted that year
+
+#### getSessionLawByInitiativeNumber
+Get session law for an initiative.
+
+Parameters:
+- `initiative_number` (integer, required): Initiative number (e.g., 1234 for I-1234)
+
+Returns: Initiative session law information
+
+#### getLegislationGovernorSigned
+Get bills signed by the governor.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of signed bills with action dates
+
+#### getLegislationGovernorVeto
+Get bills vetoed by the governor.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of vetoed bills with veto messages
+
+#### getLegislationGovernorPartialVeto
+Get bills with line-item vetoes by the governor.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of partially vetoed bills with affected sections
+
+#### getCommitteeExecutiveActionsByBill
+Get executive actions taken on a bill by committees.
+
+Parameters:
+- `bill_number` (string, required): Bill number (e.g., "HB1234")
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of executive actions with committee, date, and action type
+
+#### getCommitteeReferralsByBill
+Get committee referrals for a bill.
+
+Parameters:
+- `bill_number` (string, required): Bill number (e.g., "HB1234")
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of referrals with committees and dates
+
+#### getCommitteeReferralsByCommittee
+Get bills referred to a specific committee.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+- `committee_name` (string, required): Committee name (e.g., "House Finance")
+
+Returns: List of bills referred to the committee
+
+#### getDoPassByCommittee
+Get bills with "do pass" recommendation from a committee.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+- `committee_name` (string, required): Committee name
+
+Returns: List of bills that received do pass recommendation
+
+#### getInCommittee
+Get bills currently in a committee.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+- `committee_name` (string, required): Committee name
+
+Returns: List of bills currently referred to the committee
+
+#### getLegislationReportedOutOfCommittee
+Get bills reported out of a committee.
+
+Parameters:
+- `committee_name` (string, required): Committee name
+- `begin_date` (string, required): Begin date in YYYY-MM-DD format
+- `end_date` (string, required): End date in YYYY-MM-DD format
+
+Returns: List of bills reported out with recommendation type and vote counts
+
+#### getActiveCommittees
+Get all currently active committees.
+
+Parameters: None
+
+Returns: List of active committees for both House and Senate
+
+#### getActiveHouseCommittees
+Get active House committees.
+
+Parameters: None
+
+Returns: List of active House committees
+
+#### getActiveSenateCommittees
+Get active Senate committees.
+
+Parameters: None
+
+Returns: List of active Senate committees
+
+#### getActiveCommitteeMembers
+Get members of an active committee.
+
+Parameters:
+- `committee_name` (string, required): Committee name
+
+Returns: List of members with names, roles, party, district, and contact information
+
+#### getCommitteeMembers
+Get committee members for a biennium (historical).
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+- `committee_name` (string, required): Committee name
+
+Returns: List of committee members for the specified biennium
+
+#### getHouseCommittees
+Get all House committees for a biennium.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of House committees
+
+#### getSenateCommittees
+Get all Senate committees for a biennium.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of Senate committees
+
+#### getSponsors
+Get all sponsors for a biennium.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of sponsors for both chambers with contact information
+
+#### getHouseSponsors
+Get House sponsors.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of House sponsors
+
+#### getSenateSponors
+Get Senate sponsors.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of Senate sponsors
+
+#### getRequesters
+Get entities authorized to request legislation.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of requesters
+
+#### getLegislationPassedHouse
+Get bills that passed the House.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of House-passed bills with passage dates and vote counts
+
+#### getLegislationPassedSenate
+Get bills that passed the Senate.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of Senate-passed bills with passage dates and vote counts
+
+#### getLegislationPassedLegislature
+Get bills that passed both chambers.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of bills that passed both House and Senate
+
+#### getPrefiledLegislation
+Get prefiled bills.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of prefiled bills with filing dates and sponsors
+
+#### getLegislativeStatusChanges
+Get bill status changes in a date range.
+
+Parameters:
+- `begin_date` (string, required): Begin date in YYYY-MM-DD format
+- `end_date` (string, required): End date in YYYY-MM-DD format
+- `biennium` (string, optional): Filter by biennium
+
+Returns: List of status changes with old/new status and dates
+
+#### getDocumentClasses
+Get available document types for a biennium.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+
+Returns: List of document classes with names and descriptions
+
+#### getAllDocumentsByClass
+Get all documents of a specific class.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+- `document_class` (string, required): Document class (e.g., "Bills", "Amendments")
+
+Returns: List of documents with names, URLs, and bill associations
+
+#### getDocumentsByClass
+Get documents by class with name filter.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+- `document_class` (string, required): Document class
+- `name_filter` (string, required): Pattern to match (e.g., "HB 1*")
+
+Returns: List of filtered documents
+
+#### getLegislationTypes
+Get valid legislation types.
+
+Parameters: None (results cached for 24 hours)
+
+Returns: List of legislation type codes and descriptions
+
+#### getLegislationByRequestNumber
+Look up bill by request number.
+
+Parameters:
+- `biennium` (string, required): Legislative biennium in format "2025-26"
+- `request_number` (string, required): Request number (e.g., "23-1234")
+
+Returns: Bill information or request status
+
+#### getRevisedCommitteeMeetings
+Get committee meetings revised since a date.
+
+Parameters:
+- `since_date` (string, required): Date in YYYY-MM-DD format
+- `biennium` (string, optional): Filter by biennium
+
+Returns: List of revised meetings
 
 ### Resources
 
